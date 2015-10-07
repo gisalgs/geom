@@ -22,17 +22,17 @@ def pip_cross(point, pgon):
     inside_flag = 0
     for j in range(numvert-1):
         yflag2 = (p2.y >= ty)     # p2 on or above point
-        if yflag1 != yflag2:      # both sides of half line   #*@\label{pip:con1}
+        if yflag1 != yflag2:      # both sides of half line
             xflag1 = (p1.x >= tx) # left-right side of p1
             xflag2 = (p2.x >= tx) # left-right side of p2
-            if xflag1 == xflag2:  # both points on right side #*@\label{pip:con2}
-                if xflag1:                                    #*@\label{pip:con3}
+            if xflag1 == xflag2:  # both points on one side
+                if xflag1:
                     crossing += 1
                     inside_flag = not inside_flag
             else:
                 m = p2.x - float((p2.y-ty))*\
-                    (p1.x-p2.x)/(p1.y-p2.y)                   #*@\label{pip:intpt}
-                if m >= tx:                                   #*@\label{pip:con4}
+                    (p1.x-p2.x)/(p1.y-p2.y)    # compute intersection
+                if m >= tx:
                     crossing += 1
                     inside_flag = not inside_flag
         yflag1 = yflag2
