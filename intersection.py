@@ -21,7 +21,7 @@ def getIntersectionPoint(s1, s2):
         alpha1 = (y2-y1)/(x2-x1)
     if x3 != x4:
         alpha2 = (y4-y3)/(x4-x3)
-    if x1 == x2: # s1 is vertica
+    if x1 == x2: # s1 is vertical
         y = alpha2*(x1-x3)+y3
         return Point([x1, y])
     if x3==x4:   # s2 is vertical
@@ -38,7 +38,7 @@ def test_intersect(s1, s2):
     if s1==None or s2==None:
         return False
     # testing: s2 endpoints on the same side of s1
-    lsign = sideplr(s2.lp0, s1.lp0, s1.rp)          #*@\label{intersection:testfunc}
+    lsign = sideplr(s2.lp0, s1.lp0, s1.rp)
     rsign = sideplr(s2.rp, s1.lp0, s1.rp)
     if lsign*rsign > 0:                   
         return False
@@ -54,10 +54,10 @@ if __name__ == "__main__":
     p2 = Point(3, 4)
     p3 = Point(2, 1)
     p4 = Point(1, 4)
-    s1 = Segment(0, p1, p2)                  #*@\label{intersection:s1}
-    s2 = Segment(1, p3, p4)                  #*@\label{intersection:s2}
-    s3 = Segment(2, p1, p2)                  #*@\label{intersection:s3}
-    if test_intersect(s1, s2):               #*@\label{intersection:con1}
+    s1 = Segment(0, p1, p2)
+    s2 = Segment(1, p3, p4)
+    s3 = Segment(2, p1, p2)
+    if test_intersect(s1, s2):
         print getIntersectionPoint(s1, s2)
         print s1==s2
         print s1==s3
