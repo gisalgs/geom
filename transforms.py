@@ -16,9 +16,9 @@ def transform_sinusoidal(lon, lat, lon0=0):
     Returns the transformation of lon and lat on the Sinusoidal projection.
 
     Input
-      lon: longitude
-      lat: latitude
-      lon0: central meridian
+      lon: longitude in degrees
+      lat: latitude in degrees
+      lon0: central meridian in degrees
 
     Output
       x: x coordinate (origin at 0,0)
@@ -37,9 +37,9 @@ def transform_equirectangular(lon, lat, lat0=0):
     projection
 
     Input
-      lon: longitude
-      lat: latitude (will not be used)
-      lat1: standard parallel (true scale)
+      lon: longitude in degrees
+      lat: latitude in degrees (will not be used)
+      lat1: standard parallel in degrees (true scale)
 
     Output
       x: x coordinate (origin at 0,0)
