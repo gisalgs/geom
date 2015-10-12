@@ -9,7 +9,7 @@ def neville(datax, datay, x):
       p[0]: the polynomial of degree n
     """
     n = len(datax)
-    p = n*[0]                                     #*@\label{neville:sizen}
+    p = n*[0]
     for k in range(n):
         for i in range(n-k):
             if k == 0:
@@ -17,5 +17,5 @@ def neville(datax, datay, x):
 	    else:
                 p[i] = ((x-datax[i+k])*p[i]+ \
                         (datax[i]-x)*p[i+1])/ \
-                    (datax[i]-datax[i+k])         #*@\label{neville:pi}
+                    (datax[i]-datax[i+k])
     return p[0]
