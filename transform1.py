@@ -1,3 +1,14 @@
+"""
+A Python program for the Robinson projection.
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+"""
+
+__author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
+
 import bisect
 from neville import *
 from numpy import fabs
