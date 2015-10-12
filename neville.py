@@ -1,10 +1,23 @@
+"""
+A Python program for the Neville's algorithm.
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+"""
+
+__author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
+
 def neville(datax, datay, x):
     """
     Finds an interpolated value using Neville's algorithm.
+
     Input
       datax: input x's in a list of size n
       datay: input y's in a list of size n
       x: the x value used for interpolation
+
     Output
       p[0]: the polynomial of degree n
     """
