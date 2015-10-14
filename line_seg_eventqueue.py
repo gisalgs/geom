@@ -14,11 +14,11 @@ from point import *
 class Event:
     """
     An event in the sweep line algorithm. Each Event object
-    stores the event point and the edges associated with the
+    stores the event point and the line segments associated with the
     point.
     """
     def __init__(self, p=None):
-        self.edges = []     # edges associated with the event
+        self.edges = []     # line segments associated with the event
         self.p = p          # event point
     def __repr__(self):
         return "{0}{1}".format(self.p,self.edges)
