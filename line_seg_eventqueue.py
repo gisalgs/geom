@@ -1,3 +1,14 @@
+"""
+Python classes for Event and EventQueue for the Bentley-Ottmann algorithm.
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+"""
+
+__author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
+
 from point import *
 
 class Event:
@@ -16,7 +27,7 @@ class EventQueue:
     """
     An event queue in the sweep line algorithm. 
     """
-    def __init__(self, lset):    # initialize the event queue
+    def __init__(self, lset):
         """
         Constructor of EventQueue.
         Input
