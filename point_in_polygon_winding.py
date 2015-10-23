@@ -12,15 +12,15 @@ def is_left(p, p1, p2):
     """
     return (p2.x-p1.x)*(p.y-p1.y) - (p.x-p1.x)*(p2.y-p1.y)
 
-def pip_wn(pgon, point):
+def pip_wn(point, pgon):
     """
     Determines whether a point is in a polygon using the 
     winding number algorithm using trigonometric functions. 
     Code adopted from the C program in Graphics Gems IV
     (Haines 1994).
     Input
-      pgon: a list of points as the vertices for a polygon
       point: the point
+      pgon: a list of points as the vertices for a polygon
     Ouput
       Returns a boolean value of True or False and the number
       of times the half line crosses the polygon boundary
@@ -47,15 +47,15 @@ def pip_wn(pgon, point):
     wn = int(wn)
     return wn is not 0, wn
 
-def pip_wn1(pgon, point):
+def pip_wn1(point, pgon):
     """
     Determines whether a point is in a polygon using the 
     winding number algorithm without trigonometric functions.
     Code adopted from the C program in Graphics Gems IV 
     (Haines 1994).
     Input
-      pgon: a list of points as the vertices for a polygon
       point: the point
+      pgon: a list of points as the vertices for a polygon
     Ouput
       Returns a boolean value of True or False and the number
       of times the half line crosses the polygon boundary
@@ -78,5 +78,5 @@ if __name__ == "__main__":
              [5,11], [2,3] ]
     point = Point(6, 4)
     ppgon = [Point(p[0], p[1]) for p in pgon ]
-    print pip_wn(ppgon, point)
-    print pip_wn1(ppgon, point)
+    print pip_wn(point, ppgon)
+    print pip_wn1(point, ppgon)
