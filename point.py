@@ -1,8 +1,27 @@
+"""
+A class for points used in the GIS Algorithms book.
+
+History
+  October 28, 2015
+    Functions __repr__ and __str__ are updated to be more flexible and robust.
+
+  November 10, 2015
+    Add a key member to the class 
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+"""
+
+__author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
+
 from math import sqrt
 class Point():
     """A class for points in Cartesian coordinate systems."""
-    def __init__(self, x=None, y=None):
+    def __init__(self, x=None, y=None, key=None):
         self.x, self.y = x, y
+        self.key = key
     def __getitem__(self, i):
         if i==0: return self.x
         if i==1: return self.y
@@ -51,15 +70,21 @@ class Point():
             return False
         return NotImplemented
     def __str__(self):
-        if type(self.x) is int and type(self.y) is int:
-            return "({0},{1})".format(self.x,self.y)
+        """NAP: Not a point"""
+        if self.x is None or self.y is None \
+           or not isinstance(self.x, (int, long, float)) \
+           or not isinstance(self.y, (int, long, float)):
+            return 'NAP'
+        if type(self.x) is (int, long):
+            fmtstr = '({0}, '
         else:
-            return "({0:.1f}, {1:.1f})".format(self.x,self.y)
+            fmtstr = '({0:.1f}, '
+        if type(self.y) is (int, long):
+            fmtstr += '{1})'
+        else:
+            fmtstr += '{1:.1f})'
+        return fmtstr.format(self.x, self.y)
     def __repr__(self):
-        if type(self.x) is int and type(self.y) is int:
-            return "({0},{1})".format(self.x,self.y)
-        else:
-            return "({0:.1f}, {1:.1f})".format(self.x,self.y)
+        return self.__str__()
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
-    
