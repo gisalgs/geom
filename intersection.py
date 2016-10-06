@@ -1,10 +1,26 @@
+"""
+Functions used to test and compute intersection between two line segments.
+
+History
+  October 6, 2016
+
+  Function get_intersection_point is added for consistency in naming.
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+"""
+
+__author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
+
 from linesegment import *
 from sideplr import *
 
-def getIntersectionPoint(s1, s2):       
+def getIntersectionPoint(s1, s2):
     """
     Calculates the intersection point of two line segments
-    s1 and s2. This function assumes s1 and s2 intersect. 
+    s1 and s2. This function assumes s1 and s2 intersect.
     Intersection must be tested before calling this function.
     """
     x1 = float(s1.lp0.x)
@@ -34,18 +50,21 @@ def getIntersectionPoint(s1, s2):
     y = alpha1*(x-x1) + y1
     return Point(x, y)
 
+def get_intersection_point(s1, s2):
+    return getIntersectionPoint(s1, s2)
+
 def test_intersect(s1, s2):
     if s1==None or s2==None:
         return False
     # testing: s2 endpoints on the same side of s1
     lsign = sideplr(s2.lp0, s1.lp0, s1.rp)
     rsign = sideplr(s2.rp, s1.lp0, s1.rp)
-    if lsign*rsign > 0:                   
+    if lsign*rsign > 0:
         return False
     # testing: s1 endpoints on the same side of s2
     lsign = sideplr(s1.lp0, s2.lp0, s2.rp)
-    rsign = sideplr(s1.rp, s2.lp0, s2.rp) 
-    if lsign*rsign > 0:                   
+    rsign = sideplr(s1.rp, s2.lp0, s2.rp)
+    if lsign*rsign > 0:
         return False
     return True
 
@@ -59,5 +78,6 @@ if __name__ == "__main__":
     s3 = Segment(2, p1, p2)
     if test_intersect(s1, s2):
         print getIntersectionPoint(s1, s2)
+        print get_intersection_point(s1, s2)
         print s1==s2
         print s1==s3
