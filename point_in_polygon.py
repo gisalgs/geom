@@ -1,5 +1,9 @@
 import math
 from point import *
+class PIPError:
+    """Basic error for point-in-polygon algorithms"""
+    def __init__(self, msg):
+        self.message = msg
 
 def pip_cross(point, pgon):
     """
@@ -15,18 +19,21 @@ def pip_cross(point, pgon):
       of times the half line crosses the polygon boundary
 
     History
-       October 2016. pip_cross0 is removed; changed <> to !=
+       October 2016.
+            pip_cross0 is removed
+            changed <> to !=
+            raise error if polygon is not closed (previous version modifies data)
+
        October 2015. A bug in previous code, pip_cross0, is fixed.
     """
     tx, ty = point.x, point.y
-    pgonx = pgon
     if pgon[0] != pgon[-1]:
-        pgonx.append(pgon[0])
-    N = len(pgonx)
+        raise PIPError('Polygon not closed')
+    N = len(pgon)
     crossing = 0
     inside_flag = 0
     for i in range(N-1):
-        p1, p2 = pgonx[i], pgonx[i+1]
+        p1, p2 = pgon[i], pgon[i+1]
         yflag1 = (p1.y >= ty)                  # p1 on or above point
         yflag2 = (p2.y >= ty)                  # p2 on or above point
         if yflag1 != yflag2:                   # p1 & p2 on two sides of half line
@@ -58,3 +65,12 @@ if __name__ == "__main__":
             print "Point", p, "is IN"
         else:
             print "Point", p, "is OUT"
+
+    points = [ [0,10], [5,0], [10,10], [15,0], [20,10] ]
+    ppgon = [Point(p[0], p[1]) for p in points ]
+    try:
+        x = pip_cross(Point(10, 30), ppgon)
+    except PIPError as err:
+        print err.message
+    else:
+        print x[0]
