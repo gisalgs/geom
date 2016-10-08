@@ -1,9 +1,7 @@
 import math
 from point import *
-class PIPError:
-    """Basic error for point-in-polygon algorithms"""
-    def __init__(self, msg):
-        self.message = msg
+
+from polygon_error import PolygonError
 
 def pip_cross(point, pgon):
     """
@@ -11,8 +9,9 @@ def pip_cross(point, pgon):
     from the C program in Graphics Gems IV by Haines (1994).
 
     Input
-      pgon: a list of points as the vertices for a polygon
-      point: the point
+      pgon:   a list of points as the vertices for a polygon
+              The polygon needs to be closed. Otherwise an error is raised.
+      point:  the point
 
     Ouput
       Returns a boolean value of True or False and the number
@@ -20,36 +19,38 @@ def pip_cross(point, pgon):
 
     History
        October 2016.
-            pip_cross0 is removed
-            changed <> to !=
-            raise error if polygon is not closed (previous version modifies data)
+            Removed function pip_cross0
+            Changed <> to !=
+            Raise error if polygon is not closed (previous version modifies data)
+                This requires polygon_error.py.
+            Changed some variable names for better read
 
        October 2015. A bug in previous code, pip_cross0, is fixed.
     """
-    tx, ty = point.x, point.y
+    # tx, ty = point.x, point.y
+    x, y = point.x, point.y
     if pgon[0] != pgon[-1]:
-        raise PIPError('Polygon not closed')
+        raise PolygonError('Polygon not closed')
     N = len(pgon)
-    crossing = 0
-    inside_flag = 0
+    crossing_count = 0
+    is_point_inside = False
     for i in range(N-1):
-        p1, p2 = pgon[i], pgon[i+1]
-        yflag1 = (p1.y >= ty)                  # p1 on or above point
-        yflag2 = (p2.y >= ty)                  # p2 on or above point
-        if yflag1 != yflag2:                   # p1 & p2 on two sides of half line
-            xflag1 = (p1.x >= tx)              # left-right side of p1
-            xflag2 = (p2.x >= tx)              # left-right side of p2
-            if xflag1 == xflag2:               # p1 & p2 on same left/right side of point
-                if xflag1:
-                    crossing += 1
-                    inside_flag = not inside_flag
-            else:                              # compute intersection
-                m = p2.x - float((p2.y-ty))* (p1.x-p2.x)/(p1.y-p2.y)
-                if m >= tx:
-                    crossing += 1
-                    inside_flag = not inside_flag
-        yflag1 = yflag2
-    return inside_flag, crossing
+        p1, p2 = pgon[i], pgon[i+1]           # two consecutive points
+        yside1 = (p1.y >= y)                  # p1 on/above point
+        yside2 = (p2.y >= y)                  # p2 on/above point
+        if yside1 != yside2:                  # p1 & p2 on two sides of half line
+            xside1 = (p1.x >= x)              # p1 on/right to point
+            xside2 = (p2.x >= x)              # p2 on/right to point
+            if xside1 == xside2:              # p1 & p2 on same left/right side of point
+                if xside1:                    # p1-p2 on the right side, intersect
+                    crossing_count += 1
+                    is_point_inside = not is_point_inside
+            else:                             # compute intersection
+                m = p2.x - (p2.y-y)*(p1.x-p2.x)/float(p1.y-p2.y)
+                if m >= x:                    # p1-p2 cross half line, intersect
+                    crossing_count += 1
+                    is_point_inside = not is_point_inside
+    return is_point_inside, crossing_count
 
 if __name__ == "__main__":
     points = [ [0,10], [5,0], [10,10], [15,0], [20,10],
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     ppgon = [Point(p[0], p[1]) for p in points ]
     try:
         x = pip_cross(Point(10, 30), ppgon)
-    except PIPError as err:
+    except PolygonError as err:
         print err.message
     else:
         print x[0]
