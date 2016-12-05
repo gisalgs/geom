@@ -1,22 +1,21 @@
 """
-    Determines whether a point is in a polygon. Code adopted
-    from the C program in Graphics Gems IV by Haines (1994).
+Determines whether a point is in a polygon. Code adopted
+from the C program in Graphics Gems IV by Haines (1994).
 
-    History
-        December 2016
-            Add pip_cross, which also works for complicated polygons
-            with multiple parts or holes
+History
+    December 2016
+        Add pip_cross, which also works for complicated polygons
+        with multiple parts or holes
 
-        October 2016
-            Removed function pip_cross0
-            Changed <> to !=
-            Raise error if polygon is not closed (previous version modifies data)
-                This requires polygon_error.py.
-            Changed some variable names for better read
+    October 2016
+        Removed function pip_cross0
+        Changed <> to !=
+        Raise error if polygon is not closed (previous version modifies data)
+            This requires polygon_error.py.
+        Changed some variable names for better read
 
-       October 2015
-            A bug in previous code, pip_cross0, is fixed.
-
+   October 2015
+        A bug in previous code, pip_cross0, is fixed.
 """
 
 import math
