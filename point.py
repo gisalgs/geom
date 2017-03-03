@@ -71,15 +71,13 @@ class Point():
         return NotImplemented
     def __str__(self):
         """NAP: Not a point"""
-        if self.x is None or self.y is None \
-           or not isinstance(self.x, (int, long, float)) \
-           or not isinstance(self.y, (int, long, float)):
+        if self.x is None or self.y is None or not isinstance(self.x, (int, long, float)) or not isinstance(self.y, (int, long, float)):
             return 'NAP'
-        if type(self.x) is int or type(self.x) is long:
+        if isinstance(self.x, (int, long)):
             fmtstr = '({0}, '
         else:
             fmtstr = '({0:.1f}, '
-        if type(self.y) is int or type(self.y) is long:
+        if isinstance(self.y, (int, long)):
             fmtstr += '{1})'
         else:
             fmtstr += '{1:.1f})'
