@@ -6,7 +6,7 @@ History
     Functions __repr__ and __str__ are updated to be more flexible and robust.
 
   November 10, 2015
-    Add a key member to the class 
+    Add a key member to the class
 
 Contact:
 Ningchuan Xiao
@@ -75,11 +75,11 @@ class Point():
            or not isinstance(self.x, (int, long, float)) \
            or not isinstance(self.y, (int, long, float)):
             return 'NAP'
-        if type(self.x) is (int, long):
+        if type(self.x) is int or type(self.x) is long:
             fmtstr = '({0}, '
         else:
             fmtstr = '({0:.1f}, '
-        if type(self.y) is (int, long):
+        if type(self.y) is int or type(self.y) is long:
             fmtstr += '{1})'
         else:
             fmtstr += '{1:.1f})'
