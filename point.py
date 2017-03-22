@@ -2,6 +2,9 @@
 A class for points used in the GIS Algorithms book.
 
 History
+  March 1, 2017
+    More updates on __str__ to make sure integers are printed correctly.
+    
   October 28, 2015
     Functions __repr__ and __str__ are updated to be more flexible and robust.
 
