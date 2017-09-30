@@ -1,7 +1,7 @@
 '''
 A class for points used in the GIS Algorithms book.
 
-History
+Change history
   September 30, 2017
     Change __repr__ to return a tuple of (x,y)
 
