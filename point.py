@@ -2,9 +2,12 @@
 A class for points used in the GIS Algorithms book.
 
 History
+  April 24, 2017
+    Remove long from isinstance. Python 3 no longer support long
+
   March 1, 2017
     More updates on __str__ to make sure integers are printed correctly.
-    
+
   October 28, 2015
     Functions __repr__ and __str__ are updated to be more flexible and robust.
 
@@ -73,14 +76,14 @@ class Point():
             return False
         return NotImplemented
     def __str__(self):
-        """NAP: Not a point"""
-        if self.x is None or self.y is None or not isinstance(self.x, (int, long, float)) or not isinstance(self.y, (int, long, float)):
+        '''NAP: Not a point'''
+        if self.x is None or self.y is None or not isinstance(self.x, (int, float)) or not isinstance(self.y, (int, float)):
             return 'NAP'
-        if isinstance(self.x, (int, long)):
+        if isinstance(self.x, (int)):
             fmtstr = '({0}, '
         else:
             fmtstr = '({0:.1f}, '
-        if isinstance(self.y, (int, long)):
+        if isinstance(self.y, (int)):
             fmtstr += '{1})'
         else:
             fmtstr += '{1:.1f})'
