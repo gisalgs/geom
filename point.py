@@ -26,7 +26,8 @@ Columbus, OH
 __author__ = 'Ningchuan Xiao <ncxiao@gmail.com>'
 
 from math import sqrt
-class Point():
+
+class Point:
     '''A class for points in Cartesian coordinate systems.'''
     def __init__(self, x=None, y=None, key=None):
         self.x, self.y = x, y
