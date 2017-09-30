@@ -1,4 +1,4 @@
-"""
+'''
 A class for points used in the GIS Algorithms book.
 
 History
@@ -18,7 +18,7 @@ Contact:
 Ningchuan Xiao
 The Ohio State University
 Columbus, OH
-"""
+'''
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
