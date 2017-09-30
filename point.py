@@ -30,7 +30,8 @@ from math import sqrt
 class Point:
     '''A class for points in Cartesian coordinate systems.'''
     def __init__(self, x=None, y=None, key=None):
-        self.x, self.y = x, y
+        self.x = x
+        self.y = y
         self.key = key
     def __getitem__(self, i):
         if i==0: return self.x
@@ -81,7 +82,9 @@ class Point:
         return NotImplemented
     def __str__(self):
         '''NAP: Not a point'''
-        if self.x is None or self.y is None or not isinstance(self.x, (int, float)) or not isinstance(self.y, (int, float)):
+        if self.x is None or self.y is None \
+                or not isinstance(self.x, (int, float)) \
+                or not isinstance(self.y, (int, float)):
             return 'NAP'
         if isinstance(self.x, (int)):
             fmtstr = '({0}, '
