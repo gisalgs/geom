@@ -3,7 +3,7 @@ A class for points used in the GIS Algorithms book.
 
 Change history
   September 30, 2017
-    Change __repr__ to return a tuple of (x,y)
+    Change __repr__ to return a new string like 'Point(x,y)'
 
   April 24, 2017
     Remove long from isinstance. Python 3 no longer support long
@@ -93,6 +93,6 @@ class Point:
             fmtstr += '{1:.1f})'
         return fmtstr.format(self.x, self.y)
     def __repr__(self):
-        return self.x, self.y
+        return 'Point'+self.__str__()
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
