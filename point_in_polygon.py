@@ -1,13 +1,13 @@
-"""
+'''
 Determines whether a point is in a polygon. Code adopted
 from the C program in Graphics Gems IV by Haines (1994).
 
 Change history
     September 2017
         Python 3
-        
+
     December 2016
-        Add pip_cross, which also works for complicated polygons
+        Add pip_cross2, which also works for complicated polygons
         with multiple parts or holes
 
     October 2016
@@ -19,9 +19,11 @@ Change history
 
    October 2015
         A bug in previous code, pip_cross0, is fixed.
-"""
+'''
 
 import math
+import sys
+sys.path.append('..')
 from geom.point import *
 
 from geom.polygon_error import PolygonError
@@ -120,7 +122,7 @@ if __name__ == "__main__":
     points = [ [0,10], [5,0], [10,10], [15,0], [20,10] ]
     ppgon = [Point(p[0], p[1]) for p in points ]
     try:
-        x = pip_cross(Point(10, 30), [ppgon])
+        x = pip_cross2(Point(10, 30), [ppgon])
     except PolygonError as err:
         print(err.message)
     else:
