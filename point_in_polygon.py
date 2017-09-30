@@ -2,7 +2,10 @@
 Determines whether a point is in a polygon. Code adopted
 from the C program in Graphics Gems IV by Haines (1994).
 
-History
+Change history
+    September 2017
+        Python 3
+        
     December 2016
         Add pip_cross, which also works for complicated polygons
         with multiple parts or holes
@@ -19,9 +22,9 @@ History
 """
 
 import math
-from point import *
+from geom.point import *
 
-from polygon_error import PolygonError
+from geom.polygon_error import PolygonError
 
 def pip_cross(point, pgon):
     """
@@ -110,18 +113,18 @@ if __name__ == "__main__":
     for p in pts:
         result = pip_cross2(p, [ppgon])
         if result[0] == True:
-            print "Point", p, "is IN"
+            print("Point", p, "is IN")
         else:
-            print "Point", p, "is OUT"
+            print("Point", p, "is OUT")
 
     points = [ [0,10], [5,0], [10,10], [15,0], [20,10] ]
     ppgon = [Point(p[0], p[1]) for p in points ]
     try:
         x = pip_cross(Point(10, 30), [ppgon])
     except PolygonError as err:
-        print err.message
+        print(err.message)
     else:
-        print x[0]
+        print(x[0])
 
     # a polygon with holes
     points1 = [ [0,0], [6,0], [5,4], [3,4], [2,3], [0,3], [1,2], [0,0]]
@@ -130,4 +133,4 @@ if __name__ == "__main__":
     polygon = [[Point(p[0], p[1]) for p in plg] for plg in [points1, points2, points3]]
     pts = [[1,1], [2,2], [4,2], [1,2.1], [0,2], [3,1.5], [2.5,1.5], [4,1], [5,2], [3,3], [2,1.1]]
     pts = [Point(p[0], p[1]) for p in pts]
-    print [pip_cross2(p, polygon)[0] for p in pts]
+    print([pip_cross2(p, polygon)[0] for p in pts])
