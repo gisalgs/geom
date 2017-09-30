@@ -1,9 +1,28 @@
-from point import *
+'''
+A function calculating the centroid and area of a polygon
 
-from polygon_error import PolygonError
+Change history
+   September 2017
+        Python 3!
+
+   October 2016.
+        Changed some variable names for better read
+        Raise error if polygon is not closed (previous version modifies data)
+            This requires polygon_error.py.
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+'''
+
+import sys
+sys.path.append('..')
+from geom.point import *
+from geom.polygon_error import PolygonError
 
 def centroid(polygon):
-    """
+    '''
     Calculates the centroid and area of a polygon.
 
     Input
@@ -12,13 +31,7 @@ def centroid(polygon):
     Output
       A: the area of the polygon
       C: the centroid of the polygon
-
-    History
-       October 2016.
-            Changed some variable names for better read
-            Raise error if polygon is not closed (previous version modifies data)
-                This requires polygon_error.py.
-    """
+    '''
     if polygon[0] != polygon[-1]:
         raise PolygonError('Polygon not closed')
     num_point = len(polygon)
@@ -44,14 +57,14 @@ if __name__ == "__main__":
                [10,50], [8, 8], [4,50], [0,10] ]
     polygon = [ Point(p[0], p[1]) for p in points ]
 
-    print centroid(polygon)
+    print(centroid(polygon))
 
     try:
         x = centroid(polygon[:-1])
     except PolygonError as err:
-        print err.message
+        print(err.message)
     else:
-        print x
+        print(x)
 
     polygon.reverse()
-    print centroid(polygon)
+    print(centroid(polygon))
