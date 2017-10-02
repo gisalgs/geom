@@ -80,12 +80,15 @@ class Point:
                 return False
             return False
         return NotImplemented
-    def __str__(self):
-        '''NAP: Not a point'''
-        if self.x is None or self.y is None \
-                or not isinstance(self.x, (int, float)) \
+    def isvalid(self):
+        if not isinstance(self.x, (int, float)) \
                 or not isinstance(self.y, (int, float)):
-            return 'NAP'
+            return False
+        return True
+    def __str__(self):
+        '''NaP: Not a point'''
+        if not self.isvalid():
+            return 'NaP'
         if isinstance(self.x, (int)):
             fmtstr = '({0}, '
         else:
@@ -96,6 +99,6 @@ class Point:
             fmtstr += '{1:.1f})'
         return fmtstr.format(self.x, self.y)
     def __repr__(self):
-        return 'Point'+self.__str__()
+        return self.__str__()
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
