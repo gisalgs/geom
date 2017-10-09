@@ -2,13 +2,16 @@
 A function calculating the centroid and area of a polygon
 
 Change history
+   October 2017
+        Raise a generic exception. PolygonError in polygon_error no longer needed.
+
    September 2017
         Python 3!
 
    October 2016.
-        Changed some variable names for better read
+        Changed some variable names for better read.
         Raise error if polygon is not closed (previous version modifies data)
-            This requires polygon_error.py.
+        This requires polygon_error.py.
 
 Contact:
 Ningchuan Xiao
@@ -19,7 +22,7 @@ Columbus, OH
 import sys
 sys.path.append('..')
 from geom.point import *
-from geom.polygon_error import PolygonError
+# from geom.polygon_error import PolygonError
 
 def centroid(polygon):
     '''
@@ -33,7 +36,8 @@ def centroid(polygon):
       C: the centroid of the polygon
     '''
     if polygon[0] != polygon[-1]:
-        raise PolygonError('Polygon not closed')
+        # raise PolygonError('Polygon not closed')
+        raise Exception('Polygon not closed')
     num_point = len(polygon)
     A = 0
     xmean = 0
@@ -61,8 +65,8 @@ if __name__ == "__main__":
 
     try:
         x = centroid(polygon[:-1])
-    except PolygonError as err:
-        print(err.message)
+    except Exception as err:
+        print(err)
     else:
         print(x)
 
