@@ -2,17 +2,30 @@
 Prepares data for projection transformation.
 
 History
-  October 6, 2016
-    Added default parameters for lat and lon bounds
+    October 10, 2017
+        Now supports both shapex and OGR
+
+    October 6, 2016
+        Added default parameters for lat and lon bounds
 
 Contact:
 Ningchuan Xiao
 The Ohio State University
 Columbus, OH
 """
-from osgeo import ogr
 
-def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
+import sys
+sys.path.append('..')
+from mapping.shapex import *
+
+try:
+    from osgeo import ogr
+except ImportError:
+    use_lib = 'SHAPEX'
+else:
+    use_lib = 'OGR'
+
+def prep_projection_data_ogr(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
     points=[]
     linenum = 0
     for lat in range(lat0, lat1, 10):
@@ -43,3 +56,41 @@ def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
     # numline = max([p[0] for p in points]) + 1
 
     return points, numgraticule, linenum
+
+def prep_projection_data_shapex(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
+    points=[]
+    linenum = 0
+    for lat in range(lat0, lat1, 10):
+        for lon in range(lon0, lon1, 10):
+            points.append([linenum, lon, lat])
+        linenum += 1
+
+    for lon in range(lon0, lon1, 10):
+        for lat in range(lat0, lat1, 10):
+            points.append([linenum, lon, lat])
+        linenum += 1
+
+    numgraticule = linenum
+
+    shpdata = shapex(fname)
+    for f in shpdata:
+        geom = f['geometry']['coordinates']
+        for p in geom[0]:
+            points.append([linenum, p[0], p[1]])
+        linenum += 1
+
+    return points, numgraticule, linenum
+
+def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
+    if use_lib == 'OGR':
+        return prep_projection_data_ogr(fname, lon0, lon1, lat0, lat1)
+    else:
+        return prep_projection_data_shapex(fname, lon0, lon1, lat0, lat1)
+
+if __name__ == '__main__':
+    fname = '../data/ne_110m_coastline.shp'
+    raw_points, numgraticule, numline = prep_projection_data(fname)
+    print(len(raw_points))
+    print(numgraticule, numline)
+    print(raw_points[0])
+    print(raw_points[3000])
