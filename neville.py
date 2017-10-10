@@ -27,8 +27,8 @@ def neville(datax, datay, x):
         for i in range(n-k):
             if k == 0:
                 p[i] = datay[i]
-	    else:
+            else:
                 p[i] = ((x-datax[i+k])*p[i]+ \
                         (datax[i]-x)*p[i+1])/ \
-                    (datax[i]-datax[i+k])
+                        (datax[i]-datax[i+k])
     return p[0]
