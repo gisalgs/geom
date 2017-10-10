@@ -49,7 +49,7 @@ def transform2(lon, lat, lon0=0, R=1.0):
       y: y coordinate (origin at 0,0)
     """
     lon1 = lon-lon0
-    if lon0 <> 0:
+    if lon0 != 0:
         if lon1>180:
             lon1 = -((180+lon0)+(lon1-180))
         elif lon1<-180:
