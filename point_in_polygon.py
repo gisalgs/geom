@@ -3,6 +3,9 @@ Determines whether a point is in a polygon. Code adopted
 from the C program in Graphics Gems IV by Haines (1994).
 
 Change history
+    October 10, 2017
+        Use generic Python exception
+
     September 2017
         Python 3
 
@@ -26,7 +29,7 @@ import sys
 sys.path.append('..')
 from geom.point import *
 
-from geom.polygon_error import PolygonError
+# from geom.polygon_error import PolygonError
 
 def pip_cross(point, pgon):
     """
@@ -42,7 +45,7 @@ def pip_cross(point, pgon):
     # tx, ty = point.x, point.y
     x, y = point.x, point.y
     if pgon[0] != pgon[-1]:
-        raise PolygonError('Polygon not closed')
+        raise Exception('Polygon not closed')
     N = len(pgon)
     crossing_count = 0
     is_point_inside = False
@@ -83,7 +86,7 @@ def pip_cross2(point, polygon):
     is_point_inside = False
     for pgon in polygon:
         if pgon[0] != pgon[-1]:
-            raise PolygonError('Polygon not closed')
+            raise Exception('Polygon not closed')
         N = len(pgon)
         for i in range(N-1):
             p1, p2 = pgon[i], pgon[i+1]           # two consecutive points
