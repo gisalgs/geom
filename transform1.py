@@ -9,9 +9,11 @@ Columbus, OH
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
+import sys
+sys.path.append('..')
+from geom.neville import *
 import bisect
-from neville import *
-from numpy import fabs
+# from numpy import fabs
 
 latitudes=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
           65, 70, 75, 80, 85, 90]
@@ -22,7 +24,7 @@ A=[1.0000, 0.9986, 0.9954, 0.9900, 0.9822, 0.9730, 0.9600,
    0.7186, 0.6732, 0.6213, 0.5722, 0.5322]
 
 # length from each parallel to the equator
-# these values must be multiplied by 0.5072 
+# these values must be multiplied by 0.5072
 B=[0.0000, 0.0620, 0.1240, 0.1860, 0.2480, 0.3100, 0.3720,
    0.4340, 0.4958, 0.5571, 0.6176, 0.6769, 0.7346, 0.7903,
    0.8435, 0.8936, 0.9394, 0.9761, 1.0000]
@@ -72,7 +74,7 @@ def transform1(lon, lat):
     south = False
     if lat<0:
         south = True
-        lat = fabs(lat)
+        lat = abs(lat)
     if lat>90:
         return
     i = find_le(latitudes, lat)
