@@ -50,25 +50,24 @@ def pip_cross(point, pgon):
     crossing_count = 0
     is_point_inside = False
     for i in range(N-1):
-        p1, p2 = pgon[i], pgon[i+1]           # two consecutive points
-        yside1 = (p1.y >= y)                  # p1 on/above point
-        yside2 = (p2.y >= y)                  # p2 on/above point
-        if yside1 != yside2:                  # p1 & p2 on two sides of half line
-            xside1 = (p1.x >= x)              # p1 on/right to point
-            xside2 = (p2.x >= x)              # p2 on/right to point
-            if xside1 == xside2:              # p1 & p2 on same left/right side of point
-                if xside1:                    # p1-p2 on the right side, intersect
+        p1, p2 = pgon[i], pgon[i+1]
+        yside1 = (p1.y >= y)
+        yside2 = (p2.y >= y)
+        if yside1 != yside2:
+            xside1 = (p1.x >= x)
+            xside2 = (p2.x >= x)
+            if xside1 == xside2:
+                if xside1:
                     crossing_count += 1
                     is_point_inside = not is_point_inside
-            else:                             # compute intersection
+            else:
                 m = p2.x - (p2.y-y)*(p1.x-p2.x)/float(p1.y-p2.y)
-                if m >= x:                    # p1-p2 cross half line, intersect
+                if m >= x:
                     crossing_count += 1
                     is_point_inside = not is_point_inside
     return is_point_inside, crossing_count
 
-
-def pip_cross2(point, polygon):
+def pip_cross2(point, polygons):
     """
     Input
       polygon: a list of lists, where each inner list contains points
@@ -84,24 +83,24 @@ def pip_cross2(point, polygon):
     x, y = point.x, point.y
     crossing_count = 0
     is_point_inside = False
-    for pgon in polygon:
+    for pgon in polygons:
         if pgon[0] != pgon[-1]:
             raise Exception('Polygon not closed')
         N = len(pgon)
         for i in range(N-1):
-            p1, p2 = pgon[i], pgon[i+1]           # two consecutive points
-            yside1 = (p1.y >= y)                  # p1 on/above point
-            yside2 = (p2.y >= y)                  # p2 on/above point
-            if yside1 != yside2:                  # p1 & p2 on two sides of half line
-                xside1 = (p1.x >= x)              # p1 on/right to point
-                xside2 = (p2.x >= x)              # p2 on/right to point
-                if xside1 == xside2:              # p1 & p2 on same left/right side of point
-                    if xside1:                    # p1-p2 on the right side, intersect
+            p1, p2 = pgon[i], pgon[i+1]
+            yside1 = (p1.y >= y)
+            yside2 = (p2.y >= y)
+            if yside1 != yside2:
+                xside1 = (p1.x >= x)
+                xside2 = (p2.x >= x)
+                if xside1 == xside2:
+                    if xside1:
                         crossing_count += 1
                         is_point_inside = not is_point_inside
-                else:                             # compute intersection
+                else:
                     m = p2.x - (p2.y-y)*(p1.x-p2.x)/float(p1.y-p2.y)
-                    if m >= x:                    # p1-p2 cross half line, intersect
+                    if m >= x:
                         crossing_count += 1
                         is_point_inside = not is_point_inside
     return is_point_inside, crossing_count
@@ -126,8 +125,8 @@ if __name__ == "__main__":
     ppgon = [Point(p[0], p[1]) for p in points ]
     try:
         x = pip_cross2(Point(10, 30), [ppgon])
-    except PolygonError as err:
-        print(err.message)
+    except Exception as err:
+        print(err)
     else:
         print(x[0])
 
