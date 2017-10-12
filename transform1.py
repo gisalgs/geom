@@ -1,17 +1,17 @@
 """
 A Python program for the Robinson projection.
 
-Contact:
-
-Ningchuan Xiao
-The Ohio State University
-Columbus, OH
+Contact
+    Ningchuan Xiao
+    The Ohio State University
+    Columbus, OH
 """
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
 import sys
 sys.path.append('..')
+
 from geom.neville import *
 import bisect
 
