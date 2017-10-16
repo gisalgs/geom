@@ -14,6 +14,7 @@ The Ohio State University
 Columbus, OH
 """
 
+# assume shapex.py is stored in a folder called mapping
 import sys
 sys.path.append('..')
 from mapping.shapex import *
