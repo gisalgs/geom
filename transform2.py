@@ -26,8 +26,8 @@ def opt_theta(lat, verbose=False):
         dtheta = -(theta+sin(theta)-
                    pi*sin(lat1))/(1.0+cos(theta))
         if verbose:
-            print "theta =", degrees(theta)
-            print "delta =", degrees(dtheta)
+            print("theta =", degrees(theta))
+            print("delta =", degrees(dtheta))
         if int(1000000*dtheta) == 0:
             break
         theta = theta+dtheta
