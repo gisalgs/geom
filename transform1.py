@@ -90,4 +90,4 @@ def transform1(lon, lat):
     x = dx*lon
     if south:
         y = -1.0 * y
-    return x, y, ileft, i, iright
+    return x, y
