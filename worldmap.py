@@ -2,6 +2,9 @@
 Prepares data for projection transformation.
 
 History
+    February 28, 2018
+        Shapex is default
+
     October 10, 2017
         Now supports both shapex and OGR
 
@@ -82,8 +85,8 @@ def prep_projection_data_shapex(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
 
     return points, numgraticule, linenum
 
-def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
-    if use_lib == 'OGR':
+def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91, _use_lib='SHAPEX'):
+    if use_lib =='OGR' and _use_lib == 'OGR':
         return prep_projection_data_ogr(fname, lon0, lon1, lat0, lat1)
     else:
         return prep_projection_data_shapex(fname, lon0, lon1, lat0, lat1)
