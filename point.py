@@ -99,6 +99,6 @@ class Point:
             fmtstr += '{1:.1f})'
         return fmtstr.format(self.x, self.y)
     def __repr__(self):
-        return self.__str__()
+        return 'Point({}, {})'.format(self.x, self.y)
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
