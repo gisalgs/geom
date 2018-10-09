@@ -43,9 +43,9 @@ def pip_cross(point, pgon):
       Returns a boolean value of True or False and the number
       of times the half line crosses the polygon boundary
     """
-    x, y = point.x, point.y
     if pgon[0] != pgon[-1]:
         raise Exception('Polygon not closed')
+    x, y = point.x, point.y
     N = len(pgon)
     crossing_count = 0
     is_point_inside = False
