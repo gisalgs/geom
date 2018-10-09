@@ -3,6 +3,9 @@ Determines whether a point is in a polygon. Code adopted
 from the C program in Graphics Gems IV by Haines (1994).
 
 Change history
+    October 9, 2018
+        All points on edge are counted as in
+
     October 10, 2017
         Use generic Python exception
 
@@ -42,7 +45,6 @@ def pip_cross(point, pgon):
       Returns a boolean value of True or False and the number
       of times the half line crosses the polygon boundary
     """
-    # tx, ty = point.x, point.y
     x, y = point.x, point.y
     if pgon[0] != pgon[-1]:
         raise Exception('Polygon not closed')
@@ -51,18 +53,29 @@ def pip_cross(point, pgon):
     is_point_inside = False
     for i in range(N-1):
         p1, p2 = pgon[i], pgon[i+1]
-        yside1 = (p1.y >= y)
-        yside2 = (p2.y >= y)
+        yside1 = p1.y >= y
+        yside2 = p2.y >= y
+        xside1 = p1.x >= x
+        xside2 = p2.x >= x
+        if (p1.y == p2.y == y and (xside1 != xside2 or x == p1.x or x == p2.x)) or \
+                (p1.x == p2.x == x and (yside1 != yside2 or y == p1.y or y == p2.y)) or \
+                p1 == point or \
+                p2 == point:
+            crossing_count = 1
+            is_point_inside = True
+            return is_point_inside, crossing_count
         if yside1 != yside2:
-            xside1 = (p1.x >= x)
-            xside2 = (p2.x >= x)
             if xside1 == xside2:
                 if xside1:
                     crossing_count += 1
                     is_point_inside = not is_point_inside
             else:
-                m = p2.x - (p2.y-y)*(p1.x-p2.x)/float(p1.y-p2.y)
-                if m >= x:
+                m = p2.x - (p2.y-y)*(p1.x-p2.x)/(p1.y-p2.y)
+                if m == x:
+                    crossing_count = 1
+                    is_point_inside = True
+                    return is_point_inside, crossing_count
+                elif m > x:
                     crossing_count += 1
                     is_point_inside = not is_point_inside
     return is_point_inside, crossing_count
@@ -73,38 +86,27 @@ def pip_cross2(point, polygons):
       polygon: a list of lists, where each inner list contains points
                forming a part of a multipolygon. Each part must be
                closed, otherwise an error will be raised.
+               Example of a polygon with two parts:
+                   [ [ [1, 2], [3, 4], [5, 3], [1, 2] ],
+                     [ [6, 6], [7, 7], [8, 6], [6, 6] ] ]
       point:   the point
 
     Ouput
       Returns a boolean value of True or False and the number
       of times the half line crosses the polygon boundary
     """
-    # tx, ty = point.x, point.y
     x, y = point.x, point.y
     crossing_count = 0
     is_point_inside = False
     for pgon in polygons:
         if pgon[0] != pgon[-1]:
             raise Exception('Polygon not closed')
-        N = len(pgon)
-        for i in range(N-1):
-            p1, p2 = pgon[i], pgon[i+1]
-            yside1 = (p1.y >= y)
-            yside2 = (p2.y >= y)
-            if yside1 != yside2:
-                xside1 = (p1.x >= x)
-                xside2 = (p2.x >= x)
-                if xside1 == xside2:
-                    if xside1:
-                        crossing_count += 1
-                        is_point_inside = not is_point_inside
-                else:
-                    m = p2.x - (p2.y-y)*(p1.x-p2.x)/float(p1.y-p2.y)
-                    if m >= x:
-                        crossing_count += 1
-                        is_point_inside = not is_point_inside
+        a, b = pip_cross(point, pgon)
+        if a:
+            return a, b
+        is_point_inside = a
+        crossing_count += b
     return is_point_inside, crossing_count
-
 
 if __name__ == "__main__":
     points = [ [0,10], [5,0], [10,10], [15,0], [20,10],
