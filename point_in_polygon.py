@@ -32,8 +32,6 @@ import sys
 sys.path.append('..')
 from geom.point import *
 
-# from geom.polygon_error import PolygonError
-
 def pip_cross(point, pgon):
     """
     Input
@@ -58,9 +56,9 @@ def pip_cross(point, pgon):
         xside1 = p1.x >= x
         xside2 = p2.x >= x
         if (p1.y == p2.y == y and (xside1 != xside2 or x == p1.x or x == p2.x)) or \
-                (p1.x == p2.x == x and (yside1 != yside2 or y == p1.y or y == p2.y)) or \
-                p1 == point or \
-                p2 == point:
+        (p1.x == p2.x == x and (yside1 != yside2 or y == p1.y or y == p2.y)) or \
+        p1 == point or \
+        p2 == point:
             crossing_count = 1
             is_point_inside = True
             return is_point_inside, crossing_count
