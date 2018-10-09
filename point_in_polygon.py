@@ -78,6 +78,60 @@ def pip_cross(point, pgon):
                     is_point_inside = not is_point_inside
     return is_point_inside, crossing_count
 
+def _pip_cross(point, pgon):
+    """
+    This will be used in pip_cross2 to handle polygons with multiple parts. It works as same as
+    function pip_cross, except it has an option to return a third value to indicate special cases.
+
+    Input
+      pgon:   a list of points as the vertices for a polygon
+              The polygon needs to be closed. Otherwise an error is raised.
+      point:  the point
+
+    Ouput
+      Returns a touple of
+              a boolean value of True or False
+
+              the number of times the half line crosses the polygon boundary
+
+              a boolean value indicate special case (True) or not (False)
+    """
+    if pgon[0] != pgon[-1]:
+        raise Exception('Polygon not closed')
+    x, y = point.x, point.y
+    N = len(pgon)
+    crossing_count = 0
+    is_point_inside = False
+    for i in range(N-1):
+        p1, p2 = pgon[i], pgon[i+1]
+        yside1 = p1.y >= y
+        yside2 = p2.y >= y
+        xside1 = p1.x >= x
+        xside2 = p2.x >= x
+        if (p1.y == p2.y == y and (xside1 != xside2 or x == p1.x or x == p2.x)) or \
+        (p1.x == p2.x == x and (yside1 != yside2 or y == p1.y or y == p2.y)) or \
+        p1 == point or \
+        p2 == point:
+            crossing_count = 1
+            is_point_inside = True
+            return is_point_inside, crossing_count, True
+        if yside1 != yside2:
+            if xside1 == xside2:
+                if xside1:
+                    crossing_count += 1
+                    is_point_inside = not is_point_inside
+            else:
+                m = p2.x - (p2.y-y)*(p1.x-p2.x)/(p1.y-p2.y)
+                if m == x:
+                    crossing_count = 1
+                    is_point_inside = True
+                    return is_point_inside, crossing_count, True
+                elif m > x:
+                    crossing_count += 1
+                    is_point_inside = not is_point_inside
+    return is_point_inside, crossing_count, False
+
+
 def pip_cross2(point, polygons):
     """
     Input
@@ -99,11 +153,13 @@ def pip_cross2(point, polygons):
     for pgon in polygons:
         if pgon[0] != pgon[-1]:
             raise Exception('Polygon not closed')
-        a, b = pip_cross(point, pgon)
-        if a:
-            return a, b
-        is_point_inside = a
-        crossing_count += b
+        a, b, c = _pip_cross(point, pgon)
+        if c:
+            return True, 1
+        else:
+            if a:
+                is_point_inside = not is_point_inside
+            crossing_count += b
     return is_point_inside, crossing_count
 
 if __name__ == "__main__":
