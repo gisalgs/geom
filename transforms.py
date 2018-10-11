@@ -1,6 +1,11 @@
 """
 A Python program for the sinusoidal and equirectangular projections.
 
+Change history
+    October 2018
+        Replace numtp with math
+
+
 Contact:
 Ningchuan Xiao
 The Ohio State University
@@ -9,7 +14,7 @@ Columbus, OH
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
-from numpy import cos, radians
+from math import cos, radians
 
 def transform_sinusoidal(lon, lat, lon0=0):
     """
