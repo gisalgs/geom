@@ -164,6 +164,19 @@ class shapex:
         else:
             raise TypeError('Invalid index')
 
+
+    def robust_decode(self, bs):
+        '''
+        https://stackoverflow.com/questions/24475393/unicodedecodeerror-ascii-codec-cant-decode-byte-0xc3-in-position-23-ordinal
+        Convert a byte string to unicode. Try UTF8 first, if not working then latin1.
+        '''
+        cr = None
+        try:
+            cr = bs.decode('utf8')
+        except UnicodeDecodeError:
+            cr = bs.decode('latin1')
+        return cr
+
     def read_dbf(self, i):
         # Note: dtypes of D, L are note tested
         self.f_dbf.seek(self.dbf_header_length + i * self.formatsize)
@@ -172,7 +185,9 @@ class shapex:
             return ' ' * self.formatsize
         result = []
         for (name, dtype, size, deci), value in zip(self.fields, record):
-            value = value.decode('ascii')
+            value = value.decode('latin1')
+            # value = value.decode('ascii') // works for Python 2
+            # value = self.robust_decode(value)
             if name == 'DeletionFlag':
                 continue
             if dtype == 'N':
@@ -313,15 +328,25 @@ class shapex:
 
 if __name__ == '__main__':
     fname = '/Users/xiao/lib/gisalgs/data/uscnty48area.shp'
-    # fname = '/Users/xiao/lib/gisalgs/data/ne_110m_coastline.shp'
+    fname = '/Users/xiao/lib/gisalgs/data/ne_110m_coastline.shp'
     # fname = '/Users/xiao/lib/gisalgs/data/ne_110m_populated_places.shp'
+    # fname = '/Users/xiao/lib/gisalgs/data/ne_110m_admin_0_countries.shp'
     shp = shapex(fname)
-    print('Shape type:', shp.shape_type)
-    print(shp.schema)
-    print(shp.bounds)
+    print('Number of fetures:', len(shp))
+    # this tests all the geometry types
+    types = {}
     for f in shp:
-        pass
-    # print(shp[60])
-    # print(shp[100])
-    print(len(shp[12:17]))
+        t = f['geometry']['type']
+        if t[:5] != 'Multi':
+            if len(f['geometry']['coordinates']) > 1:
+                t = t + '_Parts'
+        if t not in types:
+            types[t] = 1
+        else:
+            types[t] += 1
+    print(types)
+
+    print('Shape type:', shp.shape_type)
+    print('Schema:\n', shp.schema)
+    print('Bunds:\n', shp.bounds)
     shp.close()
