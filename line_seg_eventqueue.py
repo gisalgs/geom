@@ -9,7 +9,7 @@ Columbus, OH
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
-from point import *
+from .point import *
 
 class Event:
     """
