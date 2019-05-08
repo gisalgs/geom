@@ -2,9 +2,11 @@
 Functions used to test and compute intersection between two line segments.
 
 History
-  October 6, 2016
+  May 8, 2019
+    Python 3 upate
 
-  Function get_intersection_point is added for consistency in naming.
+  October 6, 2016
+    Function get_intersection_point is added for consistency in naming.
 
 Contact:
 Ningchuan Xiao
@@ -14,8 +16,8 @@ Columbus, OH
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
-from linesegment import *
-from sideplr import *
+from .linesegment import *
+from .sideplr import *
 
 def getIntersectionPoint(s1, s2):
     """
@@ -77,7 +79,7 @@ if __name__ == "__main__":
     s2 = Segment(1, p3, p4)
     s3 = Segment(2, p1, p2)
     if test_intersect(s1, s2):
-        print getIntersectionPoint(s1, s2)
-        print get_intersection_point(s1, s2)
-        print s1==s2
-        print s1==s3
+        print(getIntersectionPoint(s1, s2))
+        print(get_intersection_point(s1, s2))
+        print(s1==s2)
+        print(s1==s3)
