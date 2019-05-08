@@ -9,14 +9,17 @@ Columbus, OH
 
 __author__ = "Ningchuan Xiao <ncxiao@gmail.com>"
 
-from bintrees import AVLTree
-from point import *
-from intersection import *
-from line_seg_eventqueue import *
+import sys
+sys.path.append("..")
+from contrib.bintrees import AVLTree
+
+from .point import *
+from .intersection import *
+from .line_seg_eventqueue import *
 
 def get_edges(t, p):
     """
-    Gets the edges that contain point p as their right
+    Gets the edges (segments) that contain point p as their right
     endpoint or in the interior
     """
     lr = []
@@ -109,16 +112,16 @@ def intersections(psegs):
     intpoints = []
     T = AVLTree()
     L=[]
-    while not eq.is_empty():            # for all events
-        e = eq.events.pop(0)            # remove the event
-        p = e.p                         # get event point
-        L = e.edges                     # segments with p as left end
-        R,C = get_edges(T, p)           # p: right (R) and interior (C)
-        if len(L+R+C) > 1:              # Intersection at p among L+R+C
+    while not eq.is_empty():               # for all events
+        e = eq.events.pop(0)               # remove the event
+        p = e.p                            # get event point
+        L = e.edges                        # segments with p as left end
+        R,C = get_edges(T, p)              # p: right (R) and interior (C)
+        if len(L+R+C) > 1:                 # Intersection at p among L+R+C
             for s in L+R+C:
-                if not s.contains(p):   # if p is interior
-                    s.lp = p            # change lp and
-                    s.status = INTERIOR # status 
+                if not s.contains(p):      # if p is interior
+                    s.lp = p               # change lp and
+                    s.status = INTERIOR    # status
             intpoints.append(p)
             R,C = get_edges(T, p)
         for s in R+C:
@@ -134,11 +137,11 @@ def intersections(psegs):
             sp, spp = get_lrmost(T, L+C)
             try:
                 sl = T.prev_key(sp)
-            except KeyError:            # only on last key
+            except KeyError:               # only on last key
                 sl = None
             try:
                 sr = T.succ_key(spp)
-            except KeyError:            # only on last key
+            except KeyError:               # only on last key
                 sr = None
             find_new_event(sl, sp, p, eq)
             find_new_event(sr, spp, p, eq)
