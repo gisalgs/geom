@@ -1,5 +1,5 @@
-from point import *
-from sideplr import *
+from .point import *
+from .sideplr import *
 
 ## Two statuses of the left endpoint
 ENDPOINT = 0   ## original left endpoint
@@ -20,7 +20,7 @@ class Segment:
             p0,p1 = p1,p0           # p0 is always left
         self.edge = e               # ID, in all edges
         self.lp = p0                # left point
-        self.lp0 = p0               # original left point  #*@\label{lineseg:lp0}
+        self.lp0 = p0               # original left point
         self.rp = p1                # right point
         self.status = ENDPOINT      # status of segment
         self.c = c                  # c: feature ID
