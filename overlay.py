@@ -1,5 +1,8 @@
-from line_seg_intersection import *
-from dcel import *
+import sys
+sys.path.append("..")
+from contrib.dcel import *
+
+from .line_seg_intersection import *
 
 class OvearlayError(Exception): pass
 
@@ -11,7 +14,7 @@ def update_intersect_dcel(hl, e):
     if l<2:
         raise OvearlayError(
             "Overlay/DCEL error: single edge for vertex")
-    big, small = l-1, 0  
+    big, small = l-1, 0
     for i in range(l):
         if e.angle > hl[i].angle:
             big,small = i-1,i
@@ -37,7 +40,7 @@ def handle_edge_vertex(L, R, C, p, D):
     e4.twin = e2
     e3.nexthedge = e2.nexthedge
     e4.nexthedge = e1.nexthedge
-    
+
     v = D.findvertex(p)                # updating around p
     v.sortincident()
     hl = v.hedgelist
@@ -106,7 +109,7 @@ def overlay(psegs, D):
                 sl, sr = get_lr(T, s)
                 y = find_new_event(sl, sr, p, eq)
         else:
-            lp, lpp = get_lrmost(T, L+C) 
+            lp, lpp = get_lrmost(T, L+C)
             try:
                 sl = T.prev_key(lp)
             except KeyError:           # only on last key
