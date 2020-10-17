@@ -24,6 +24,8 @@ Columbus, OH
 import sys
 sys.path.append('..')
 from geom.shapex import *
+import urllib.request as request
+import json 
 
 try:
     from osgeo import ogr
