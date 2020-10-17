@@ -121,7 +121,7 @@ def prep_projection_data_url_geojson(url, lon0=-180, lon1=181, lat0=-90, lat1=91
 def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91, _use_lib='SHAPEX'):
     if use_lib =='OGR' and _use_lib == 'OGR':
         return prep_projection_data_ogr(fname, lon0, lon1, lat0, lat1)
-    elif _use_lib='URL':
+    elif _use_lib == 'URL':
         return prep_projection_data_url_geojson(fname, lon0, lon1, lat0, lat1)
     else:
         return prep_projection_data_shapex(fname, lon0, lon1, lat0, lat1)
