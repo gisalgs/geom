@@ -90,6 +90,32 @@ def prep_projection_data_shapex(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
 
     return points, numgraticule, linenum
 
+def prep_projection_data_geojson(fname, lon0=-180, lon1=181, lat0=-90, lat1=91):
+    points=[]
+    linenum = 0
+    for lat in range(lat0, lat1, 10):
+        for lon in range(lon0, lon1, 10):
+            points.append([linenum, lon, lat])
+        linenum += 1
+
+    for lon in range(lon0, lon1, 10):
+        for lat in range(lat0, lat1, 10):
+            points.append([linenum, lon, lat])
+        linenum += 1
+
+    numgraticule = linenum
+
+    with open(fname) as json_file:
+        coastline_obj = json.loads(json_file.read())
+        
+    for f in coastline_obj['features']:
+        geom = f['geometry']['coordinates']
+        for p in geom[0]:
+            points.append([linenum, p[0], p[1]])
+        linenum += 1
+
+    return points, numgraticule, linenum
+
 def prep_projection_data_url_geojson(url, lon0=-180, lon1=181, lat0=-90, lat1=91):
     points=[]
     linenum = 0
@@ -117,12 +143,13 @@ def prep_projection_data_url_geojson(url, lon0=-180, lon1=181, lat0=-90, lat1=91
     return points, numgraticule, linenum
 
 
-
 def prep_projection_data(fname, lon0=-180, lon1=181, lat0=-90, lat1=91, _use_lib='SHAPEX'):
     if use_lib =='OGR' and _use_lib == 'OGR':
         return prep_projection_data_ogr(fname, lon0, lon1, lat0, lat1)
     elif _use_lib == 'URL':
         return prep_projection_data_url_geojson(fname, lon0, lon1, lat0, lat1)
+    elif _use_lib == 'GEOJSON':
+        return prep_projection_data_geojson(fname, lon0, lon1, lat0, lat1)
     else:
         return prep_projection_data_shapex(fname, lon0, lon1, lat0, lat1)
 
