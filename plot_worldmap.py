@@ -23,7 +23,7 @@ def plot_world(ax, points, numgraticule, numline, color=None):
         l = plt.Polygon(pts, color=col, fill=False, closed=False)
         ax.add_line(l)
 
-    plt.axis('equal')                       # x and y one the same scale
+    ax.axis('equal')                       # x and y one the same scale
     ax.axes.get_xaxis().set_visible(False)  # don't show axis
     ax.axes.get_yaxis().set_visible(False)  # don't show axis
     ax.set_frame_on(False)                  # no frame either
