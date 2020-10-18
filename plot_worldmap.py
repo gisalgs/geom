@@ -1,4 +1,4 @@
-def plot_world(ax, points, numgraticule, numline, ax, color=None):
+def plot_world(ax, points, numgraticule, numline, color=None):
     '''
     Uses the data prepared by worldmap.py to plot the world map.
     
