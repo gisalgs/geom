@@ -1,3 +1,16 @@
+'''
+Plot the world map using data prepared in worldmap.py.
+
+History
+    October 23, 2023
+        Change ax.add_line to ax.add_patch
+
+Contact:
+Ningchuan Xiao
+The Ohio State University
+Columbus, OH
+'''
+
 import matplotlib.pyplot as plt
 
 def plot_world(ax, points, numgraticule, numline, color=None):
@@ -23,7 +36,7 @@ def plot_world(ax, points, numgraticule, numline, color=None):
                 col = color
         pts = [[p[1], p[2]] for p in points if p[0]==i]
         l = plt.Polygon(pts, color=col, fill=False, closed=False)
-        ax.add_line(l)
+        ax.add_patch(l)
 
     ax.axis('equal')                       # x and y one the same scale
     ax.axes.get_xaxis().set_visible(False)  # don't show axis
