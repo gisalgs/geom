@@ -104,25 +104,18 @@ class Point:
                 self.y = kwargs['y']
             if 'key' in kwargs.keys():
                 self.key = kwargs['key']
-        for v in [self.x, self.y]:
-            if v and not isinstance(v, (int, float)):
-                try:
-                    v = float(v)
-                except Exception as e:
-                    print(e)
-                    raise Exception(f'CoordinateTypeError: {v}') from None # don't traceback
-        # if self.x and not isinstance(self.x, (int, float)): 
-        #     try:
-        #         self.x = float(self.x)
-        #     except Exception as e:
-        #         print(e)
-        #         raise Exception('XCoordinateTypeError') from None # don't traceback
-        # if self.y and not isinstance(self.y, (int, float)): 
-        #     try:
-        #         self.y = float(self.y)
-        #     except Exception as e:
-        #         print(e)
-        #         raise Exception('YCoordinateTypeError') from None # don't traceback
+        if self.x and not isinstance(self.x, (int, float)): 
+            try:
+                self.x = float(self.x)
+            except Exception as e:
+                print(e)
+                raise Exception('XCoordinateTypeError') from None # don't traceback
+        if self.y and not isinstance(self.y, (int, float)): 
+            try:
+                self.y = float(self.y)
+            except Exception as e:
+                print(e)
+                raise Exception('YCoordinateTypeError') from None # don't traceback
              
     def __getitem__(self, i):
         if i==0: 
