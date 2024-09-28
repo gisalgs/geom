@@ -2,6 +2,14 @@
 A class for points used in the GIS Algorithms book.
 
 Change history
+
+  September 28, 2024
+
+    f-strings are used now.
+    Type checking for __init__.
+    Convert a number in string when creating a Point object.
+    Error handling.
+
   December 10, 2022
     Now use *args and **kwargs in __init__ to make it more flexible
 
@@ -46,13 +54,25 @@ class Point:
         Point(10)
         Point(10, 1)
         Point(x=10, y=1)
-    
+        Point(1, y=12)
+        Point(1, key='any attributes')
+        Point(1, 2, 'any attributes')
+        Point(1, 2, key='any attributes')
+        Point(1, '12')
+        Point('1', 12)
     '''
     # def __init__(self, x=None, y=None, key=None):
     #     self.x = x
     #     self.y = y
     #     self.key = key
     def __init__(self, *args, **kwargs): # x=None, y=None, key=None):
+        '''
+        Both x and y can be None. If not, they need to be numerical.
+
+        Key is the attributes and can be of any type.
+
+        An exception will be raised if a non-numerical value is used in either x or y.
+        '''
         self.x = None
         self.y = None
         self.key = None
@@ -63,10 +83,16 @@ class Point:
                     self.y = args[0][1]
             else:
                 self.x = args[0]
+            if  'y' in kwargs.keys():
+                self.y = kwargs['y']
+            if 'key' in kwargs.keys():
+                self.key = kwargs['key']
         elif len(args) == 2:
             self.x = args[0]
             self.y = args[1]
             self.key = None
+            if 'key' in kwargs.keys():
+                self.key = kwargs['key']
         elif len(args) == 3:
             self.x = args[0]
             self.y = args[1]
@@ -78,9 +104,31 @@ class Point:
                 self.y = kwargs['y']
             if 'key' in kwargs.keys():
                 self.key = kwargs['key']
+        for v in [self.x, self.y]:
+            if v and not isinstance(v, (int, float)):
+                try:
+                    v = float(v)
+                except Exception as e:
+                    print(e)
+                    raise Exception(f'CoordinateTypeError: {v}') from None # don't traceback
+        # if self.x and not isinstance(self.x, (int, float)): 
+        #     try:
+        #         self.x = float(self.x)
+        #     except Exception as e:
+        #         print(e)
+        #         raise Exception('XCoordinateTypeError') from None # don't traceback
+        # if self.y and not isinstance(self.y, (int, float)): 
+        #     try:
+        #         self.y = float(self.y)
+        #     except Exception as e:
+        #         print(e)
+        #         raise Exception('YCoordinateTypeError') from None # don't traceback
+             
     def __getitem__(self, i):
-        if i==0: return self.x
-        if i==1: return self.y
+        if i==0: 
+            return self.x
+        if i==1: 
+            return self.y
         return None
     def __len__(self):
         return 2
@@ -113,16 +161,12 @@ class Point:
         if isinstance(other, Point):
             if self > other or self == other:
                 return True
-            else:
-                return False
             return False
         return NotImplemented
     def __le__(self, other):
         if isinstance(other, Point):
             if self < other or self == other:
                 return True
-            else:
-                return False
             return False
         return NotImplemented
     def isvalid(self):
@@ -135,15 +179,15 @@ class Point:
         if not self.isvalid():
             return 'NaP'
         if isinstance(self.x, (int)):
-            fmtstr = '({0}, '
+            fmtstr = f'({self.x}, '
         else:
-            fmtstr = '({0:.1f}, '
+            fmtstr = f'({self.x:.1f}, '
         if isinstance(self.y, (int)):
-            fmtstr += '{1})'
+            fmtstr += f'{self.y})'
         else:
-            fmtstr += '{1:.1f})'
-        return fmtstr.format(self.x, self.y)
+            fmtstr += f'{self.y:.1f})'
+        return fmtstr
     def __repr__(self):
-        return 'Point({}, {})'.format(self.x, self.y)
+        return f'Point({self.x}, {self.y})'
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
