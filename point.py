@@ -4,7 +4,6 @@ A class for points used in the GIS Algorithms book.
 Change history
 
   September 28, 2024
-
     f-strings are used now.
     Type checking for __init__.
     Convert a number in string when creating a Point object.
@@ -171,14 +170,20 @@ class Point:
         '''NaP: Not a point'''
         if not self.isvalid():
             return 'NaP'
-        if isinstance(self.x, (int)):
-            fmtstr = f'({self.x}, '
-        else:
-            fmtstr = f'({self.x:.1f}, '
-        if isinstance(self.y, (int)):
-            fmtstr += f'{self.y})'
-        else:
-            fmtstr += f'{self.y:.1f})'
+        x, y = self.x, self.y
+        fmtstr = '(' + \
+                 f'({x}' if isinstance(x, int) else f'({x:.1f}' + \
+                 ', ' + \
+                 f'{y}' if isinstance(y, int) else f'{y:.1f}' +\
+                 ')'
+        # if isinstance(self.x, (int)):
+        #     fmtstr = f'({self.x}, '
+        # else:
+        #     fmtstr = f'({self.x:.1f}, '
+        # if isinstance(self.y, (int)):
+        #     fmtstr += f'{self.y})'
+        # else:
+        #     fmtstr += f'{self.y:.1f})'
         return fmtstr
     def __repr__(self):
         return f'Point({self.x}, {self.y})'
