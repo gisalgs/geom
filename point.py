@@ -3,6 +3,10 @@ A class for points used in the GIS Algorithms book.
 
 Change history
 
+  October 3, 2024
+    Now the class is iterable
+    Change representation to [x,y]
+
   September 28, 2024
     f-strings are used now.
     Type checking for __init__.
@@ -59,6 +63,12 @@ class Point:
         Point(1, 2, key='any attributes')
         Point(1, '12')
         Point('1', 12)
+        Point([1, 12])
+
+    An object of this class is iterable:
+        p = Point(10, 11)
+        for i in p:
+            print(i)
     '''
     # def __init__(self, x=None, y=None, key=None):
     #     self.x = x
@@ -75,8 +85,11 @@ class Point:
         self.x = None
         self.y = None
         self.key = None
+        self.idx = 0
         if len(args) == 1:
             if isinstance(args[0], (list, tuple)):
+                if len(args[0]) == 1:
+                    self.x = args[0][0]
                 if len(args[0]) == 2:
                     self.x = args[0][0]
                     self.y = args[0][1]
@@ -170,12 +183,8 @@ class Point:
         '''NaP: Not a point'''
         if not self.isvalid():
             return 'NaP'
-        x, y = self.x, self.y
-        fmtstr = '(' + \
-                 f'({x}' if isinstance(x, int) else f'({x:.1f}' + \
-                 ', ' + \
-                 f'{y}' if isinstance(y, int) else f'{y:.1f}' +\
-                 ')'
+        fmtstr = f'({self.x}' if isinstance(self.x, int) else f'({self.x:.1f}'
+        fmtstr += f', {self.y})' if isinstance(self.y, int) else f'{self.y:.1f})'
         # if isinstance(self.x, (int)):
         #     fmtstr = f'({self.x}, '
         # else:
@@ -186,6 +195,17 @@ class Point:
         #     fmtstr += f'{self.y:.1f})'
         return fmtstr
     def __repr__(self):
-        return f'Point({self.x}, {self.y})'
+        # return f'Point({self.x}, {self.y})'
+        return f'[{self.x}, {self.y}]'
     def distance(self, other):
         return sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
+
+    def __iter__(self):
+        return self
+    def __next__(self):
+        if self.idx >= len(self):
+            self.idx = 0
+            raise StopIteration
+        else:
+            self.idx += 1
+            return self[self.idx-1]
