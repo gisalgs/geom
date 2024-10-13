@@ -184,7 +184,7 @@ class Point:
         if not self.isvalid():
             return 'NaP'
         fmtstr = f'({self.x}' if isinstance(self.x, int) else f'({self.x:.1f}'
-        fmtstr += f', {self.y})' if isinstance(self.y, int) else f'{self.y:.1f})'
+        fmtstr += f', {self.y})' if isinstance(self.y, int) else f', {self.y:.1f})'
         # if isinstance(self.x, (int)):
         #     fmtstr = f'({self.x}, '
         # else:
