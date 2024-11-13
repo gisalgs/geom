@@ -72,7 +72,9 @@ def point_in_multipolygon(p, muly):
             if pip_cross(p, r)[0]: # if p in a ring, return false
                 return False
         return True
+    # if p is in any part, return true
     for part in muly['geometry']['coordinates']:
         if _point_in_poly(p, part):
             return True
-        return False
+    
+    return False
