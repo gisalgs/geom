@@ -13,6 +13,7 @@ Columbus, OH
 
 __author__ = 'Ningchuan Xiao <ncxiao@gmail.com>'
 
+from point import *
 
 def get_bounds(f):
     '''
@@ -30,9 +31,9 @@ def get_bounds(f):
         [ [ [x,y], [x,y], ...], [ [x,y], ...] ]
         We only needs the outter ring to get the bounds
         '''
-        outer = a_poly[0]
-        xcoords = [p[0] for p in outer]
-        ycoords = [p[1] for p in outer]
+        outter = a_poly[0]
+        xcoords = [p[0] for p in outter]
+        ycoords = [p[1] for p in outter]
         return min(xcoords), max(xcoords), min(ycoords), max(ycoords)
 
     if f['geometry']['type'] == 'Polygon':
@@ -63,9 +64,9 @@ def point_in_multipolygon(p, muly):
         '''
         poly - polygon, may have holes: [ [ [x,y], [x,y]...], [ [x,y], [x,y],...] ]
         '''
-        # check the outer ring
-        outer = [Point(p[0], p[1]) for p in poly[0]]
-        if not pip_cross(p, outer)[0]:
+        # check the outter ring
+        outter = [Point(p[0], p[1]) for p in poly[0]]
+        if not pip_cross(p, outter)[0]:
             return False
         for ring in poly[1:]:
             r = [Point(p[0], p[1]) for p in ring]
