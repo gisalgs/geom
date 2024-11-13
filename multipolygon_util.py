@@ -13,7 +13,11 @@ Columbus, OH
 
 __author__ = 'Ningchuan Xiao <ncxiao@gmail.com>'
 
-from point import *
+import sys
+sys.path.append('..')
+
+from geom.point import *
+from geom.point_in_polygon import *
 
 def get_bounds(f):
     '''
