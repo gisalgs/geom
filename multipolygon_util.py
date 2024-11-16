@@ -83,3 +83,43 @@ def point_in_multipolygon(p, muly):
             return True
     
     return False
+
+def proj_multipoly(geo, proj_func):
+    '''
+    Project the entire geojson multipolygon object
+
+    INPUT: 
+        geo       - a geojson object. Only multipolygons are handled here
+        proj_func - the name a function that two coordinates (x, y) and return the projected coordinates
+
+    OUTPUT:
+        proj_geo  - a projected geojson
+
+    REQUIREMENTS
+        Must have get_bounds(feature)
+
+    EXAMPLE
+        Assuming we have a geojson object loaded and it is called blkgrps:
+        blkgrps_spcs = proj_multipoly(blkgrps, spcs_ohio_south)
+    '''
+    proj_geo = {
+        'type': geo['type'], # this should be FeatureCollection
+        'features': []
+    }
+    for f in geo['features']:
+        if f['geometry']['type'] != 'MultiPolygon':
+            raise Exception('Can only handle multipolygons')
+        feature = {
+            'type': 'Feature',
+            'geometry': {
+                'type': 'MultiPolygon', 
+                'coordinates': []},
+            'properties': f['properties']
+        }
+        geom = []
+        for part in f['geometry']['coordinates']:
+            geom.append([[proj_func(p[0], p[1]) for p in ring] for ring in part])
+        feature['geometry']['coordinates'] = geom
+        feature['bounds'] = get_bounds(feature)
+        proj_geo['features'].append(feature)
+    return proj_geo
