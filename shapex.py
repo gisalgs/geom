@@ -6,6 +6,9 @@ It now only supports four types of shapefile:
 
 History
 
+    October 5, 2025
+        shp2geojson
+
     October 9, 2017
         Support slicing!
 
@@ -66,7 +69,7 @@ def clockwise(polygon):
 
 class shapex:
     '''
-    A class for points in Cartesian coordinate systems.
+    A class that can be used to read shapefiles and allow users to access the data through an iterator.
 
     Examples
 
@@ -325,6 +328,20 @@ class shapex:
             properties.append((name, fmt))
         myschema['properties'] = properties
         return myschema
+
+def shp2geojson(shp):
+    '''Converts a shapex object into a geojson format
+    
+    Input
+        shp     - a shapex object
+
+    OUTPUT
+        geojson - a Python dictionary in geojson format
+    '''
+    geojson = {"type": "FeatureCollection", "features": []}
+    for f in shp:
+        geojson['features'].append(f)
+    return geojson
 
 if __name__ == '__main__':
     fname = '/Users/xiao/lib/gisalgs/data/uscnty48area.shp'
