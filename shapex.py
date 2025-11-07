@@ -6,8 +6,12 @@ It now only supports four types of shapefile:
 
 History
 
+    November 6, 2025
+        Added a reset method to the shapex class
+
     October 5, 2025
-        shp2geojson
+        Added a shp2geojson function to convert a shapex object
+        to a geojson object
 
     October 9, 2017
         Support slicing!
@@ -287,12 +291,18 @@ class shapex:
     def __iter__(self):
         return self
     def __next__(self):
+        # this allows using in a loop
+        # but it will not automatically reset the index to zero
+        # if the loop stops in the middle, it may cause issues
+        # to avoid that, use reset before the loop
         if self.this_feature_num >= self.num_rec:
             self.this_feature_num = 0
             raise StopIteration
         feature = self.__getitem__(self.this_feature_num)
         self.this_feature_num += 1
         return feature
+    def reset(self):
+        self.this_feature_num = 0
     def close(self):
         self.f_shp.close()
         self.f_shx.close()
@@ -330,7 +340,7 @@ class shapex:
         return myschema
 
 def shp2geojson(shp):
-    '''Converts a shapex object into a geojson format
+    '''Converts a shapex object into a geojson object
     
     Input
         shp     - a shapex object
