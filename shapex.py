@@ -375,5 +375,5 @@ if __name__ == '__main__':
 
     print('Shape type:', shp.shape_type)
     print('Schema:\n', shp.schema)
-    print('Bunds:\n', shp.bounds)
+    print('Bounds:\n', shp.bounds)
     shp.close()
